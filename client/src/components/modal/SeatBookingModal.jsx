@@ -82,8 +82,9 @@ class SeatBookingModal extends Component {
         }
         await axios.get(variables.movieIndex, config).then(res => {
             for (let seat of res.data.data) {
-                this.setState({bookedSeats: [...this.state.bookedSeats, seat.seat_index]})
-                this.setState({bookedUsers: [...this.state.bookedUsers, seat.user_index]})
+                this.setState({bookedSeats: [...this.state.bookedSeats, {
+                    seat: seat.seat_index, user_index: seat.user_index
+                    }]})
             }
         })
     }
@@ -99,10 +100,12 @@ class SeatBookingModal extends Component {
 
     isInclude(seatIndex) {
         for (let item of this.state.bookedSeats) {
-            if (item === seatIndex) return true
+            if (item.seat === seatIndex) return true
         }
         return false;
     }
+
+
 
 
     async onOkHandler() {
@@ -126,10 +129,8 @@ class SeatBookingModal extends Component {
 
     }
     isSelfBooked(seatIndex){
-        console.log(seatIndex, this.state.bookedUsers[seatIndex], this.isInclude(seatIndex),this.state.userIndex)
-
-        if (this.isInclude(seatIndex) && this.state.userIndex==this.state.bookedUsers[seatIndex]){
-            return true
+        for (let item of this.state.bookedSeats){
+            if (item.seat=== seatIndex && item.user_index == localStorage.getItem("id")) return true;
         }
         return false
     }

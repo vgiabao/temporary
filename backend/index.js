@@ -2,6 +2,7 @@
 const express = require("express");
 const cors = require("cors");
 const mysql = require("mysql");
+const path= require('path')
 const app = express();
 const PORT = 4000;
 const bodyParser = require("body-parser");
@@ -10,19 +11,14 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
-const dbHost = 'localhost';
-const user = "root";
-const password = "root";
-const database = "movies";
-
 const selectAll = "SELECT * FROM movies";
 
 const connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "root",
-    database: "movies",
-    port: '3307'})
+    host: "sql12.freesqldatabase.com",
+    user: "sql12387050",
+    password: "bvCRHytYWT",
+    database: "sql12387050",
+    port: '3306'})
 connection.connect(err => {
     if (err) {
         console.log(err);
@@ -108,7 +104,6 @@ app.get("/movie", (req, res) => {
     connection.query(selectFilm, (err, result) => {
         if (err) return res.send(err);
         else {
-            console.log(result)
             return res.json({
                 data: result
             })
@@ -123,7 +118,6 @@ app.get("/movie/booking", (req, res) => {
     connection.query(bookings, (err, result) => {
         if (err) return res.send(err);
         else {
-            console.log(result)
             return res.json({
                 data: result
             })
@@ -140,6 +134,48 @@ app.post("/movie/booking", (req, res) => {
     })
 })
 
+
+app.post("/user/add-screening", (req, res) => {
+    const id = req.body.id;
+    const starting_time = req.body.starting_time;
+    const price = req.body.price;
+    const number_viewer = req.body.number_viewer;
+    const insert_query = "INSERT INTO movie_detail ( movie_id, starting_time, number_viewer, price) VALUES (?,?,?,?)"
+    connection.query(insert_query, [id, starting_time, number_viewer, price], (err, result) => {
+        console.log(err)
+    })
+})
+
+app.post('/user/add-Movie', (req, res)=>{
+    const name = req.body.name;
+    const description = req.body.description;
+    const short_description = req.body.short_description;
+    const category_id = req.body.category_id;
+    const image = req.body.image;
+    const insert_query = "INSERT INTO movies ( name, description, short_description, category_id, image) VALUES (?,?,?,?,?)"
+    connection.query(insert_query, [name, description, short_description, category_id,image], (err, result) => {
+        console.log(err)
+    })
+})
+
+app.put("/user/update-movie", (req, res)=>{
+    const id = req.body.params.id;
+    const name = req.body.params.name;
+    const description = req.body.params.description;
+    const short_description = req.body.params.short_description;
+    const category_id = req.body.params.category_id;
+    const image = req.body.params.image;
+    const update = "UPDATE movies SET name='"+name+"', description='"+description+"', short_description='" + short_description +"', " +
+        "category_id='"+category_id +"', image='" + image+"' where" +
+        " id='"+id+"';";
+    connection.query(update, (err,result)=>{
+        if (err) console.log(err);
+        else console.log('successfully update user')
+    });
+
+})
+
+
 app.get('/user/history', (req, res) => {
     const id = req.query.id;
     const history = "SELECT COUNT(*) as count, short_description, image, starting_time, price, name FROM movies m, movie_viewer mv, movie_detail md  " +
@@ -147,7 +183,7 @@ app.get('/user/history', (req, res) => {
     connection.query(history, (err, result) => {
         if (err) return res.send(err);
         else {
-            console.log(result)
+            console.log('successfully update user')
             return res.json({
                 data: result
             })
@@ -166,10 +202,30 @@ app.put('/user/update-user', (req, res)=>{
         " user_id='"+id+"';";
     connection.query(update, (err,result)=>{
         if (err) console.log(err);
-        else console.log(result)
+        else console.log('successfully update user')
     });
 
 })
+
+app.put('/user/update-movie', (req, res)=>{
+    const id = req.body.params.id;
+    const starting_time =req.body.params.starting_time;
+    const price = req.body.params.price;
+    console.log(price)
+    console.log(typeof  price)
+    const number_viewer = req.body.params.number_viewer;
+    const update = "UPDATE movie_detail SET starting_time='"+starting_time+"', price='"+price+"', number_viewer='"
+        + number_viewer +"' WHERE id='" + id+"'"
+    // const update = "UPDATE movie_detail SET starting_time=STR_TO_DATE('"+starting_time+"','%H:%M:%S %d-%m-%y'), price='"+price+"', number_viewer='"
+    //     + number_viewer +"' WHERE id='" + id+"'"
+    connection.query(update, (err,result)=>{
+        if (err) console.log(err);
+        else console.log('successfully update movie')
+    });
+
+})
+
+
 
 
 
@@ -181,6 +237,16 @@ app.post("/admin/add", (req, res) => {
 
 })
 
+
+// serve static access production
+if (process.env.NODE_ENV === 'production'){
+    // set static folder
+    app.use(express.static('client/build'))
+    app.get('*', (req, res)=>{
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+    })
+
+}
 
 
 

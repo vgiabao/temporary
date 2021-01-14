@@ -15,10 +15,8 @@ class MovieList extends Component {
                     <List.Item.Meta
                         className={'row'}
                         avatar={<a>{item.name}</a>}
-
                     />
                 </Skeleton>
-
             </List.Item>
         );
     }

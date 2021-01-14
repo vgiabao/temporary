@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 import {  Input, Modal } from 'antd';
+import ShowTimeModal from "../modal/ShowTimeModal";
+import axios from "axios";
+import localVariables from "../../localVariables";
 
 class ShowTime extends Component {
     constructor(props) {
@@ -7,7 +10,6 @@ class ShowTime extends Component {
         this.state = {
             showTimes: this.props.showTimes
         }
-        this.removeItem = this.removeItem.bind(this);
     }
     componentDidMount() {
         this.setState({
@@ -20,34 +22,30 @@ class ShowTime extends Component {
         console.log(values)
     }
 
-    removeItem(key){
-        let arr = [];
-        for (let item of this.state.showTimes){
-            if (item.id === key){
-                arr.push(item)
-            }
-        }
-        this.setState({
-            showTimes: arr
-        })
-    }
-    handleChane(){
 
-    }
+
+
+
 
     render() {
         const data = this.state.showTimes;
         const dataContainer = data.map(item => (
-            <div>
-            <Input prefix={'Price'} onChange={this.handleChane}  />
-            <Input prefix={'Price'} onChange={this.handleChane} />
+            <div className={'row'}>
+                <p className={'col-5'}> {item.starting_time}</p>
+                <p className={'col-2'}> {item.price}$</p>
+                <p className={'col-2'}> {item.number_viewer}</p>
+                <ShowTimeModal item={item} convertDay={this.convertDay}/>
             </div>
+
         ))
         return (
-            <div>
-            <Modal>
-
-            </Modal>
+            <div className={'container-fluid'}>
+                <div className={'row'}>
+                    <p className={'col-5'}> Starting Time</p>
+                    <p className={'col-2'}> Price</p>
+                    <p className={'col-3'}> Max Viewers</p>
+                </div>
+                {dataContainer}
             </div>
         );
     }

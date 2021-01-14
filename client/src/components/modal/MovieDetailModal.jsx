@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
-import {Input, Modal} from "antd";
+import {Input, Modal, Button} from "antd";
 import axios from "axios";
 import localVariables from "../../localVariables";
 import ShowTime from "../showtime/ShowTime";
-
+import {PlusCircleOutlined} from "@ant-design/icons"
+import ShowTimeModal from "./ShowTimeModal";
+import AddNewScreeningModal from "./AddNewScreeningModal";
 class MovieDetailModal extends Component {
     constructor(props) {
         super(props);
@@ -54,13 +56,13 @@ class MovieDetailModal extends Component {
             params: {
                 id: this.state.id,
                 name: this.state.name,
-                phone: this.state.phone,
-                email: this.state.email,
-                address: this.state.address,
-                type: this.state.type
+                description: this.state.description,
+                short_description: this.state.short_description,
+                category_id: this.state.category_id,
+                image: this.state.image
             },
         }
-        axios.put(localVariables.updateUser, config).then(res => {
+        axios.put(localVariables.updateMovie, config).then(res => {
             console.log(res)
         })
 
@@ -99,8 +101,8 @@ class MovieDetailModal extends Component {
         let container = <div></div>;
         if (this.state.render) {
             container = <div>
-                <a onClick={this.showModal} className={'mx-2'} key="list-loadmore-edit">edit</a>
-                <Modal visible={this.state.visible} onCancel={this.handleCancel} title={item.name}>
+                <a  onClick={this.showModal} className={'mx-2'} key="list-loadmore-edit">edit</a>
+                <Modal onOk={this.handleSubmit} visible={this.state.visible} onCancel={this.handleCancel} title={item.name}>
                     <h3>Movie Title: </h3>
                     <Input prefix={'Name: '} name={'name'} onChange={this.handleChange} value={this.state.name}/>
                     <h3> Short Description</h3>
@@ -115,8 +117,9 @@ class MovieDetailModal extends Component {
                     <h3> Image Url: </h3>
                     <Input prefix={'Image Url: '} name={'image'} onChange={this.handleChange} value={this.state.image}/>
                     <img src={this.state.image} alt={'movie image'}/>
-                    <h3> Show Times: </h3>
-                    <ShowTime showTimes={this.state.showTimes}/>
+                    <h3 className={'mb-1'}> Screening:  </h3>
+                    <ShowTime  showTimes={this.state.showTimes}/>
+                    <AddNewScreeningModal id={this.state.id}/>
                 </Modal>
             </div>
         }

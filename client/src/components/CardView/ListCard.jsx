@@ -23,7 +23,7 @@ class ListCard extends Component {
              let i = 0;
             this.setState({
                     cardList:  nextProps.movies.map(item => (
-                        <CardView name={item.id}  className={'col-lg-3 col-md-6 col-sm-12'} data={item}/>))
+                        <CardView name={item.id}  className={'m-2 col-lg-3 col-md-6 col-sm-12'} data={item}/>))
                 })
 
     }}
@@ -32,7 +32,7 @@ class ListCard extends Component {
     render() {
 
         return (
-            <div className={"container"}>
+            <div className={"container row"}>
                 {this.state.cardList}
             </div>
         );

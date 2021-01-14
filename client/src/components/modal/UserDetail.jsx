@@ -12,7 +12,7 @@ class UserDetail extends Component {
             phone: '',
             email: '',
             address: '',
-            type: 0,
+            type: 1,
             id: 0,
         }
         this.handleCancel = this.handleCancel.bind(this);
@@ -81,7 +81,6 @@ class UserDetail extends Component {
 
 
     render() {
-        const data = this.props.data;
         return (
             <div>
             <a onClick={this.showModal} className={'mx-2'} key="list-loadmore-edit">edit</a>
@@ -90,7 +89,7 @@ class UserDetail extends Component {
                 <Input prefix={'Phone: '} name={'phone'} onChange={this.handleChange} value={this.state.phone} />
                 <Input prefix={'Email: '} name={'email'} onChange={this.handleChange} value={this.state.email}/>
                 <Input prefix={'Address: '} name={'address'} onChange={this.handleChange} value={this.state.address}/>
-                <Input prefix={'User Type: '} name={'type'} onChange={this.handleChange} value={this.state.type}/>
+                { this.props.isAdmin ? <Input prefix={'User Type: '} name={'type'} onChange={this.handleChange} value={this.state.type}/> : null}
             </Modal>
             </div>
         );

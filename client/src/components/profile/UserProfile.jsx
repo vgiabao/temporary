@@ -6,6 +6,8 @@ import {Avatar, List, Button, Tabs, Skeleton} from "antd";
 import localVariables from "../../localVariables";
 import UserList from "../listItems/UserList";
 import MovieList from "../listItems/MovieList";
+import AddNewMovieModal from "../modal/AddNewMovieModal";
+import UserDetail from "../modal/UserDetail";
 
 const { TabPane } = Tabs;
 class UserProfile extends Component {
@@ -129,6 +131,7 @@ class UserProfile extends Component {
             console.log(this.state.movies)
             const name = this.state.userData.name;
             const data = this.state.history;
+            const isAdmin = this.state.userData.type ===  99;
             container=
                 <div className={'row'}>
                     <div className={'col-lg-4 col-md-4 col-sm-12 bg-light'}
@@ -136,6 +139,7 @@ class UserProfile extends Component {
                         <h3> User Profile </h3>
                         <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" style={{width:'100px', height:'100px'}} />
                         <h5> {name} </h5>
+                        <UserDetail isAdmin={isAdmin}  data={this.state.userData}/>
                     </div>
 
                     { this.state.type === 'user' ?  <div className={'col-lg-8 col-md-8 col-sm-12'}>
@@ -147,13 +151,17 @@ class UserProfile extends Component {
                                 renderItem={item => (
                                     <List.Item>
                                         <List.Item.Meta
-                                            avatar={<Avatar src={item.image}/>}
+                                            avatar={
+                                                <div >
+                                                    <img  style={{width:'250px'}} src={item.image} />
+                                                </div>
+                                            }
                                             title={<a className={'d-table'}
                                                       href="https://ant.design">{item.title}</a>}
                                             description={<div><h6> You have booked {item.count} tickets for the
-                                                film {item.name} on {this.dateString(item.starting_time)}</h6>
+                                                film {item.name} on {item.starting_time}</h6>
                                                 <h6> Total Price: {item.count * item.price}$ </h6>
-                                                <Button> Pay </Button></div>}
+                                          </div>}
                                         />
                                     </List.Item>
                                 )}
@@ -174,9 +182,11 @@ class UserProfile extends Component {
                                             dataSource={dataSource[i]}
                                             renderItem={item => (
                                                 i === "Movie List" ?
-                                                <UserList item={item}/> : <MovieList  item={item}/>
+                                                   <UserList  item={item}/> : <MovieList  item={item}/>
+
                                             )}
-                                        />
+                                        > { i === 'Movie List' ? <AddNewMovieModal/>: null } </List>
+
                                     </TabPane>
                                 ))}
                             </Tabs>

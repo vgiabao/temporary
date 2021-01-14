@@ -7,6 +7,9 @@ const variables ={
     movieDetailUrl:  "http://localhost:4000/movie",
     movieIndex: "http://localhost:4000/movie/booking",
     userList: "http://localhost:4000/user/user-list",
-    updateUser: "http://localhost:4000/user/update-user"
+    updateUser: "http://localhost:4000/user/update-user",
+    updateMovie: "http://localhost:4000/user/update-movie",
+    addScreening: "http://localhost:4000/user/add-screening",
+    addMovie: "http://localhost:4000/user/add-Movie"
 }
 export default variables;

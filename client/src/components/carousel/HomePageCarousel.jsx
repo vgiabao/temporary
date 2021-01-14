@@ -49,19 +49,20 @@ class HomePageCarousel extends Component {
             })
             let size = nextProps.movies.length;
             let data = nextProps.movies;
-            for (let i = size -1; i > nextProps.movies.length - 4 && i >= 0; i--){
+            let arr = []
+            for (let i = size -1; i > size - 4 && i >= 0; i--){
                 const contentStyle = {
                     height: '190px',
-                    color: 'black',
+                    color: 'white',
                     lineHeight:'190px',
                     textAlign: 'center',
-                    background: "url('" + data[i].image  +"'"}
-
-                this.setState({arrCarouselItems: [ [...this.state.arrCarouselItems], <div>
-                        <h3 style={contentStyle}  > {data[i].name}</h3>
-                    </div>] })
-
+                    background: "url('" + data[i].image,}
+                    arr.push( <div>
+                        <h3 style={contentStyle} className={'p-5 bg-dark'}  > {data[i].name}</h3>
+                    </div>)
             }
+            this.setState({arrCarouselItems: arr})
+            console.log(this.state.arrCarouselItems)
         }
     }
 
@@ -69,9 +70,10 @@ class HomePageCarousel extends Component {
     render() {
         let renderContainer = <div> </div>;
         if (this.state.render){
-            renderContainer =( <Carousel style={{height: '200px'}} dotPosition={"Bottom"} autoplay>
+            renderContainer =( <Carousel centered style={{height: '200px'}} dotPosition={"Bottom"} autoplay>
                 {this.state.arrCarouselItems}
             </Carousel>)
+            console.log(this.state.arrCarouselItems)
         }
         return (
             renderContainer

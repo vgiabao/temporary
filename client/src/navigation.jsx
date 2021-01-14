@@ -18,9 +18,6 @@ class Navigation extends Component {
         <Menu.Item onClick={this.clickProfile} key="2" icon={<UserOutlined />}>
            Profile
         </Menu.Item>
-        <Menu.Item key="3" icon={<UserOutlined />}>
-            History
-        </Menu.Item>
         <hr/>
         <Menu.Item key="1" onClick={this.clickLogout} icon={<LogoutOutlined />}>
             Logout

@@ -55,11 +55,7 @@ class CardDetail extends Component {
         }
     }
 
-    formatDate(targetTime) {
-        targetTime = new Date(targetTime)
-        return targetTime.getHours() + ':' + targetTime.getMinutes() + ':' + targetTime.getSeconds() + ' ' +
-            targetTime.getDate() + '-' + targetTime.getMonth() + 1 + '-' + targetTime.getFullYear()
-    }
+
 
 
     async handleShowModal() {
@@ -85,7 +81,7 @@ class CardDetail extends Component {
                 i++;
                 return (
                     <Menu.Item>
-                        <a name={i} onClick={this.setCurrentIndex}> {this.formatDate(item.starting_time)} </a>
+                        <a name={i} onClick={this.setCurrentIndex}> {item.starting_time} </a>
                     </Menu.Item>)
 
             })
@@ -104,7 +100,7 @@ class CardDetail extends Component {
                             <Dropdown overlay={dropMenu}>
                                 <a className="ant-dropdown-link" style={{color: 'black'}}
                                    onClick={e => e.preventDefault()}>
-                                    Date: {this.formatDate(data.starting_time)} <DownOutlined/>
+                                    Date: {data.starting_time} <DownOutlined/>
                                 </a>
                             </Dropdown>
                             <div> Price: {data.price}$ / ticket</div>

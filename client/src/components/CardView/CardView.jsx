@@ -17,14 +17,14 @@ class CardView extends Component {
         const {Meta} = Card;
         return (
             <Card
-
+                className={'p-2'}
                 style={{width: 300}}
                 cover={
                     <img
                         alt="movie image"
                         src={data.image}
                         onClick={this.handleClickCard}
-                        style={{cursor:'pointer'}}
+                        style={{cursor:'pointer', height:'150px'}}
                     />
                 }
             >
