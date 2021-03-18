@@ -27,7 +27,7 @@ class Navigation extends Component {
     render() {
         return (
             <nav className="container-fluid navbar navbar-expand-lg navbar-light bg-light sticky-top" style={{}}>
-                <a className="navbar-brand" href="#">Movie TT</a>
+                <Link to={'/'} className="navbar-brand" >Movie TT</Link>
                 <button className="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">

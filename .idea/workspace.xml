@@ -4,7 +4,6 @@
     <list default="true" id="bb88ad9e-d42b-4c01-9646-1c837f1ec2d2" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -12,7 +11,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/backend" />
   </component>
   <component name="ProjectId" id="1me7Qe4L8uWVqvXf8Woj0w6C2ry" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -24,6 +23,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -35,8 +35,10 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\vogia\WebstormProjects\movie_theater_management_system\client\src\components\listItems" />
+      <recent name="C:\Users\vogia\WebstormProjects\movie_theater_management_system\client\build" />
+      <recent name="C:\Users\vogia\WebstormProjects\movie_theater_management_system\client" />
       <recent name="C:\Users\vogia\WebstormProjects\movie_theater_management_system\client\src" />
+      <recent name="C:\Users\vogia\WebstormProjects\movie_theater_management_system\client\src\components\listItems" />
     </key>
   </component>
   <component name="RunManager" selected="npm.npm start">
@@ -67,7 +69,17 @@
       <workItem from="1609995873566" duration="31731000" />
       <workItem from="1610120161665" duration="33082000" />
       <workItem from="1610427589458" duration="8160000" />
-      <workItem from="1610438618486" duration="75203000" />
+      <workItem from="1610438618486" duration="75913000" />
+      <workItem from="1610691795593" duration="29770000" />
+      <workItem from="1610833191640" duration="82000" />
+      <workItem from="1610833553586" duration="2386000" />
+      <workItem from="1611057401449" duration="3986000" />
+      <workItem from="1611161487549" duration="3740000" />
+      <workItem from="1611232546110" duration="28982000" />
+      <workItem from="1611495523712" duration="551000" />
+      <workItem from="1611497046082" duration="324000" />
+      <workItem from="1611497929253" duration="1248000" />
+      <workItem from="1611501316160" duration="1260000" />
     </task>
     <servers />
   </component>
@@ -85,5 +97,16 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/client/src/components/login/RegisterPage.jsx</url>
+          <line>186</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -19,26 +19,6 @@ class HomePageCarousel extends Component {
     }
 
     componentDidMount() {
-        let size = this.state.movies.length;
-        let data = this.state.movies;
-        let arrCarousel = [];
-        for (let i = size -1; size > this.state.movies.length - 4; size--){
-               if (i >= 0 ){
-                   arrCarousel.push(data[i])
-               }
-        }
-        arrCarousel.map(item => {
-            const contentStyle = {
-                height: '190px',
-                color: '#fff',
-                lineHeight: '190px',
-                textAlign: 'center',
-                background: "url('" + item.image  +"'"}
-
-            this.setState({arrCarouselItems: [...this.state.arrCarouselItems] + ( <div>
-                    <h3 style={contentStyle} > {data.name}</h3>
-                </div>) })
-        })
     }
 
     componentWillUpdate(nextProps, nextState, nextContext) {
@@ -50,7 +30,7 @@ class HomePageCarousel extends Component {
             let size = nextProps.movies.length;
             let data = nextProps.movies;
             let arr = []
-            for (let i = size -1; i > size - 4 && i >= 0; i--){
+            for (let i = 0; i < 4; i++){
                 const contentStyle = {
                     height: '190px',
                     color: 'white',

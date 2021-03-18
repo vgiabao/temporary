@@ -20,6 +20,7 @@ class MovieDetailModal extends Component {
             category_id: '',
             image: '',
             render: false,
+            confirmLoading:false
 
         }
         this.showModal = this.showModal.bind(this);
@@ -62,14 +63,16 @@ class MovieDetailModal extends Component {
                 image: this.state.image
             },
         }
+        console.log(config)
         axios.put(localVariables.updateMovie, config).then(res => {
             console.log(res)
         })
 
         this.setState({
+            confirmLoading: true,
             visible: false
         })
-        setTimeout(() => window.location.reload(false), 500)
+        setTimeout(() => window.location.reload(), 1500)
 
     }
 
@@ -102,7 +105,7 @@ class MovieDetailModal extends Component {
         if (this.state.render) {
             container = <div>
                 <a  onClick={this.showModal} className={'mx-2'} key="list-loadmore-edit">edit</a>
-                <Modal onOk={this.handleSubmit} visible={this.state.visible} onCancel={this.handleCancel} title={item.name}>
+                <Modal confirmLoading={this.state.confirmLoading}  onOk={this.handleSubmit} visible={this.state.visible} onCancel={this.handleCancel} title={item.name}>
                     <h3>Movie Title: </h3>
                     <Input prefix={'Name: '} name={'name'} onChange={this.handleChange} value={this.state.name}/>
                     <h3> Short Description</h3>

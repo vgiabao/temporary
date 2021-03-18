@@ -59,6 +59,12 @@ img{
   position: center;
 
 }
+.App > .navbar {
+  height: 40px;
+}
+.ant-form-horizontal{
+  width: 400px;
+}
 
 @keyframes App-logo-spin {
   from {

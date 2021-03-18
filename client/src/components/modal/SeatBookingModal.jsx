@@ -1,22 +1,24 @@
 import React, {Component} from 'react';
-import {Modal} from 'antd'
+import {Button, Modal} from 'antd'
 import {UserOutlined} from '@ant-design/icons'
 import Seat from "../seat/Seat";
 import axios from "axios";
 import variables from "../../localVariables";
 import localVariables from "../../localVariables";
+import {navigate} from "@reach/router";
 
 class SeatBookingModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            visible: this.props.visible,
+            visible: false,
             bookingSeats: [],
             bookedSeats: [],
             bookedUsers: [],
             render: false,
             loading: false,
-            userIndex: localStorage.getItem("id")
+            userIndex: localStorage.getItem("id"),
+            movieDetailIndex: 1
         }
         this.handleCancel = this.handleCancel.bind(this);
         this.handleAddSeat = this.handleAddSeat.bind(this);
@@ -25,59 +27,66 @@ class SeatBookingModal extends Component {
         this.fetchSeat = this.fetchSeat.bind(this);
         this.onOkHandler = this.onOkHandler.bind(this);
         this.isSelfBooked = this.isSelfBooked.bind(this);
+        this.showModal = this.showModal.bind(this);
+        this.handleCancel = this.handleCancel.bind(this);
+        this.componentWillUpdate = this.componentWillUpdate.bind(this)
     }
 
-    componentWillUpdate(nextProps, nextState, nextContext) {
-        if (nextProps.visible === true && this.props.visible !== nextProps.visible) {
-            this.setState({
-                visible: nextProps.visible,
-            })
+    async componentWillUpdate(nextProps, nextState, nextContext) {
+        if (nextProps.movieDetailIndex !== this.props.movieDetailIndex){
+            const empty = []
+            this.setState({movieDetailIndex: nextProps.movieDetailIndex})
+            this.setState({render:false})
+            this.setState({bookedSeats: empty})
+            console.log('changed', this.state.movieDetailIndex, nextProps.movieDetailIndex)
+            console.log(this.state.movieDetailIndex)
+            console.log(nextProps.movieDetailIndex)
+            await this.fetchSeat(nextProps.movieDetailIndex);
+            this.setState({render:true})
         }
     }
 
-    async componentDidUpdate(prevProps, prevState, snapshot) {
-        if (prevProps.movieDetailIndex !== this.props.movieDetailIndex) {
-            this.setState({render: false})
-            await this.fetchSeat().then(() => {
-                this.setState({render: true})
-            })
 
 
-        }
+    showModal(){
+        this.setState({
+            visible:true
+        })
     }
 
 
     handleCancel() {
         this.setState({visible: false})
-        this.props.handleCancelModal();
     }
 
     handleAddSeat(seatIndex) {
         this.setState({
             bookingSeats: [...this.state.bookingSeats, seatIndex]
         })
+        // console.log(this.props.movieDetailIndex)
+        // console.log(this.state.bookingSeats)
+        // console.log(this.state.user_index)
     }
 
-    handleOk(e) {
-        for (let item of this.state.bookingSeats) {
-
-        }
-    }
 
     async componentDidMount() {
-        await this.fetchSeat().then(() => this.setState({render: true})
+        this.setState({movieDetailIndex: this.props.movieDetailIndex})
+        this.setState({user_index: localStorage.getItem('id')})
+        await this.fetchSeat(this.props.movieDetailIndex).then(() => this.setState({render: true})
         );
     }
 
-    async fetchSeat() {
+
+
+
+    async fetchSeat(id) {
         const emptyArr = []
         this.setState({bookedSeats: emptyArr})
         this.setState({bookedUsers: emptyArr})
-        const id = this.props.movieDetailIndex;
         let config = {
             headers: {'bookDetail': 'Detail'},
             params: {
-                id: id,
+                id: id
             },
         }
         await axios.get(variables.movieIndex, config).then(res => {
@@ -85,6 +94,7 @@ class SeatBookingModal extends Component {
                 this.setState({bookedSeats: [...this.state.bookedSeats, {
                     seat: seat.seat_index, user_index: seat.user_index
                     }]})
+
             }
         })
     }
@@ -118,13 +128,16 @@ class SeatBookingModal extends Component {
         {
             this.setState({loading: true})
             for (let item of this.state.bookingSeats) {
-                axios.post(localVariables.movieIndex, {
-                    movieIndex: this.props.movieDetailIndex,
+                 axios.post(localVariables.movieIndex, {
+                    movieIndex: this.state.movieDetailIndex,
                     seatIndex: item,
-                    userIndex: localStorage.getItem("id")
+                    userIndex: this.state.user_index
                 })
             }
-            setTimeout(() => window.location.reload(false), 1000)
+            setTimeout(() => {
+                window.location.reload();
+                this.setState({visible:false})
+            }, 1000)
         }
 
     }
@@ -148,7 +161,10 @@ class SeatBookingModal extends Component {
                 ))
             }
             container =
-                <Modal style={{height: '50vh', overFlowY: 'scroll'}} title="Basic Modal" visible={this.state.visible}
+                <div>
+                <Button onClick={this.showModal} > Choose A Seat </Button>
+
+            <Modal style={{height: '50vh', overFlowY: 'scroll'}} title="Basic Modal" visible={this.state.visible}
                        onOk={this.onOkHandler}
                        onCancel={this.handleCancel}
                        confirmLoading={this.state.loading}>
@@ -156,9 +172,10 @@ class SeatBookingModal extends Component {
                         style={{borderBottom: '1px solid black'}}>Screen</h6>
                     {arrSeat}
                 </Modal>
+                </div>
         }
         return (
-            container
+                container
         );
     }
 }

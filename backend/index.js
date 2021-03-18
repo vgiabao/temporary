@@ -4,7 +4,7 @@ const cors = require("cors");
 const mysql = require("mysql");
 const path= require('path')
 const app = express();
-const PORT = 4000;
+const PORT = 5000;
 const bodyParser = require("body-parser");
 //read information from the front-end
 app.use(cors());
@@ -14,10 +14,10 @@ app.use(bodyParser.urlencoded({extended:true}));
 const selectAll = "SELECT * FROM movies";
 
 const connection = mysql.createConnection({
-    host: "sql12.freesqldatabase.com",
-    user: "sql12387050",
-    password: "bvCRHytYWT",
-    database: "sql12387050",
+    host: "cis9cbtgerlk68wl.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    user: "ie3hu7a9oxmvzj07",
+    password: "cwlvxav8y3v9k1x1",
+    database: "iul0df79brsnbllz",
     port: '3306'})
 connection.connect(err => {
     if (err) {
@@ -27,8 +27,20 @@ connection.connect(err => {
 })
 
 app.get('/', (req, res) => {
-    const getMovieString = "SELECT * FROM movies;"
+    const getMovieString = "SELECT * FROM movies ORDER BY id DESC;"
     connection.query(getMovieString, (err, result) => {
+        if (err) console.log(err);
+        else {
+            return res.json({data: result})
+        }
+    })
+
+})
+
+app.get('/register/get', (req, res) => {
+    const account = req.query.account;
+    const getUserString = "SELECT * FROM users WHERE account='" + account + "';"
+    connection.query(getUserString, (err, result) => {
         if (err) console.log(err);
         else {
             return res.json({data: result})
@@ -70,7 +82,7 @@ app.get("/login/get", (req, res) => {
 
 
 app.get('/user/user-list', (req, res)=>{
-        const getUserString = "SELECT * FROM users;"
+        const getUserString = "SELECT * FROM users having type<99 order by type DESC;"
         connection.query(getUserString, (err, result) => {
             if (err) console.log(err);
             else return res.json({data: result})
@@ -86,6 +98,7 @@ app.get("/user", (req, res) =>{
         else return res.json({data: result})
     })
 })
+
 
 app.get("/product", (req, res) => {
     connection.query(selectAll, (err, result) => {
@@ -167,7 +180,7 @@ app.put("/user/update-movie", (req, res)=>{
     const image = req.body.params.image;
     const update = "UPDATE movies SET name='"+name+"', description='"+description+"', short_description='" + short_description +"', " +
         "category_id='"+category_id +"', image='" + image+"' where" +
-        " id='"+id+"';";
+        " id='"+id+"'";
     connection.query(update, (err,result)=>{
         if (err) console.log(err);
         else console.log('successfully update user')
@@ -179,7 +192,7 @@ app.put("/user/update-movie", (req, res)=>{
 app.get('/user/history', (req, res) => {
     const id = req.query.id;
     const history = "SELECT COUNT(*) as count, short_description, image, starting_time, price, name FROM movies m, movie_viewer mv, movie_detail md  " +
-        "WHERE mv.user_index='"+id+"' and md.id = mv.movie_detail_index and m.id=md.movie_id GROUP BY movie_detail_index"
+        "WHERE mv.user_index='"+id+"' and md.id = mv.movie_detail_index and m.id=md.movie_id GROUP BY movie_detail_index order by md.id DESC;"
     connection.query(history, (err, result) => {
         if (err) return res.send(err);
         else {
@@ -207,7 +220,7 @@ app.put('/user/update-user', (req, res)=>{
 
 })
 
-app.put('/user/update-movie', (req, res)=>{
+app.put('/user/update-screening', (req, res)=>{
     const id = req.body.params.id;
     const starting_time =req.body.params.starting_time;
     const price = req.body.params.price;
@@ -225,19 +238,47 @@ app.put('/user/update-movie', (req, res)=>{
 
 })
 
-
-
-
-
-
-
-
-
-app.post("/admin/add", (req, res) => {
-
+app.get('/user/total-spend', (req, res) => {
+    const query = "SELECT  u.name , SUM(md.price) AS total_spend FROM users u, movie_viewer mv, movie_detail md " +
+        "WHERE u.user_id=mv.user_index " +
+        "and mv.movie_detail_index=md.id " +
+        "AND u.`type`=1 " +
+        "GROUP BY u.account " +
+        "ORDER BY total_spend DESC;"
+    connection.query(query,  (err,result)=> {
+        if (err) console.log(err)
+        else {
+            return res.json({
+                data: result
+            })
+        }
+    })
 })
 
 
+app.delete("/user/delete-user", (req,res)=>{
+    const id = req.params.id
+    console.log(id)
+    console.log(req.body)
+    const query = "DELETE FROM users where user_id='"+id+"';"
+    connection.query(query, (err,result)=>{
+        if (err) console.log(err)
+        else {
+            console.log(id)
+            console.log(result)
+        }
+    })
+    res.send('delete a user')
+})
+
+
+app.delete("/user/delete-movie", (req,res)=>{
+    const id = req.params.id
+    const query = "DELETE FROM movies where id='"+ id+ "';"
+    connection.query(query, (err,result)=>{
+        if (err) console.log(err)
+    })
+})
 // serve static access production
 if (process.env.NODE_ENV === 'production'){
     // set static folder
@@ -250,7 +291,7 @@ if (process.env.NODE_ENV === 'production'){
 
 
 
-app.listen(PORT, () => {
+app.listen(process.env.PORT || 5000, () => {
     console.log("listen from port " + PORT )
 })
 

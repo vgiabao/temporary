@@ -5,7 +5,9 @@ class Seat extends Component {
         super(props);
         this.state = {
             selected: false,
-            userId: localStorage.getItem("id")
+            userId: localStorage.getItem("id"),
+            available: this.props.available,
+            isSelfBooked: this.props.isSelfBooked
         }
         this.onIconClick = this.onIconClick.bind(this);
         this.iconStyling = this.iconStyling.bind(this)
@@ -26,18 +28,27 @@ class Seat extends Component {
     }
 
     iconStyling(){
-        if (this.props.available){
+        if (this.state.available){
             return null
         }
         return 'red'
     }
 
+    componentWillUpdate(nextProps, nextState, nextContext) {
+        if (nextProps.available !== this.props.available || this.props.isSelfBooked !== nextProps.isSelfBooked){
+            this.setState({
+                available: nextProps.available,
+                isSelfBooked: nextProps.isSelfBooked
+            })
+        }
+    }
+
     render() {
         return (
             <div className={'d-inline-block col-2'}>
-            <UserOutlined onClick={this.props.available ?  this.onIconClick : null} className={"col-2 h1"} style={{opacity: this.state.selected? '1': '0.5',
-            color: this.iconStyling(), cursor: !this.props.available? 'not-allowed': 'pointer'}}/>
-                { this.props.isSelfBooked ? <h6 className={'text-center'} style={{position: "absolute", bottom: 0, cursor:'not-allowed'}}>
+            <UserOutlined onClick={this.state.available ?  this.onIconClick : null} className={"col-2 h1"} style={{opacity: this.state.selected? '1': '0.5',
+            color: this.iconStyling(), cursor: !this.state.available? 'not-allowed': 'pointer'}}/>
+                { this.state.isSelfBooked ? <h6 className={'text-center'} style={{position: "absolute", bottom: 0, cursor:'not-allowed'}}>
                     You booked</h6> : null}
             </div>
         );

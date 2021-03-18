@@ -42,7 +42,7 @@ class AddNewScreeningModal extends Component {
         }).then(result => {
             console.log(result)
         })
-        setTimeout(() => window.location.reload(false), 200)
+        setTimeout(() => window.location.reload(), 200)
     }
 
     render() {

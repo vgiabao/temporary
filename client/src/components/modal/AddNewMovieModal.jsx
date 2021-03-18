@@ -36,7 +36,7 @@ class AddNewMovieModal extends Component {
             console.log("successfully add a movie!")
         })
         this.setState({visible:false})
-        setTimeout(() => window.location.reload(false), 1000)
+        setTimeout(() => window.location.reload(), 1000)
 
     }
 

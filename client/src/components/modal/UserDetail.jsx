@@ -75,7 +75,7 @@ class UserDetail extends Component {
         this.setState({
             visible:false
         })
-        setTimeout(() => window.location.reload(false), 500)
+        setTimeout(() => window.location.reload(), 500)
 
     }
 

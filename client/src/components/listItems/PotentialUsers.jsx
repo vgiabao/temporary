@@ -1,29 +1,23 @@
 import React, {Component} from 'react';
 import {List, Skeleton} from "antd";
-import UserDetail from '../modal/UserDetail'
-import MovieDetailModal from "../modal/MovieDetailModal";
-import MovieDeleteModal from "../modal/MovieDeleteModal";
 
-class UserList extends Component {
-
-
-
+class PotentialUsers extends Component {
     render() {
         const item = this.props.item
+        console.log('spend', item)
         return (
             <List.Item
-                actions={[<MovieDetailModal item={this.props.item}/>]}
             >
                 <Skeleton  avatar title={false} loading={item.loading} active>
                     <List.Item.Meta
                         className={'col-lg-3 col-md-6 col-sm-12'}
                         avatar={
                             <div >
-                                <img  style={{width:'250px'}} src={item.image} />
+                                {item.name}
                             </div>
                         }
-                        title={<a>{item.name}</a>}
-                        description={item.short_description}
+                        title={<a>{"Total spend"}</a>}
+                        description={item.total_spend.toFixed(2) + "$"}
                     />
                 </Skeleton>
             </List.Item>
@@ -31,4 +25,4 @@ class UserList extends Component {
     }
 }
 
-export default UserList;
+export default PotentialUsers;

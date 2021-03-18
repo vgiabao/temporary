@@ -1,6 +1,6 @@
 import './App.css';
 import LoginPage from "./components/login/LoginPage";
-import { Router, Link } from "@reach/router";
+import { Router } from "@reach/router";
 import React from "react"
 import RegisterPage from "./components/login/RegisterPage";
 import Navigation from "./navigation";
@@ -74,16 +74,14 @@ class App extends Component {
     render() {
         return (
             <div className={'App'}>
-                <div className="App">
-                    <Navigation isLogged={this.state.isLogged} handleLogout={this.handleLogout} />
-                    <Router>
-                        <HomePage setMovieList={this.setMovieList} path={'/'}/>
-                        <LoginPage  path={"login"} handleChangeLogged={this.handleChangeLogged} handleCurrentUser={this.handleCurrentUser}/>
-                        <RegisterPage path={"register"}/>
-                        <UserProfile movies={this.state.movies} path={"user/:userId"} currentUser={this.state.currentUser}/>
-                        <CardDetail path={"movie/:id"}/>
-                    </Router>
-                </div>
+                <Navigation isLogged={this.state.isLogged} handleLogout={this.handleLogout} />
+                <Router>
+                    <HomePage setMovieList={this.setMovieList} path={'/'}/>
+                    <LoginPage  path={"/login"} handleChangeLogged={this.handleChangeLogged} handleCurrentUser={this.handleCurrentUser}/>
+                    <RegisterPage path={"/register"}/>
+                    <UserProfile movies={this.state.movies} path={"/user/:userId"} currentUser={this.state.currentUser}/>
+                    <CardDetail path={"/movie/:id"}/>
+                </Router>
             </div>
         );
     }

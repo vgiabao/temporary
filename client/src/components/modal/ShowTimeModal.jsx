@@ -55,13 +55,13 @@ class ShowTimeModal extends Component {
                 number_viewer: this.state.number_viewer,
             },
         }
-        axios.put(localVariables.updateMovie, config).then(res => {
+        axios.put(localVariables.updateScreening, config).then(res => {
             console.log(res)
         })
         this.setState({
             visible:false
         })
-        setTimeout(() => window.location.reload(false), 500)
+        setTimeout(() => window.location.reload(), 500)
 
     }
 
